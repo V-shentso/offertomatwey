@@ -161,41 +161,47 @@
     border-radius: 4px; padding: 12px 14px; margin: 0;
   }
 
-  /* ===== Калькулятор ===== */
-  .calc-wrap { margin-top: 56px; }
-  .calc h3 { font-size: 16px; margin: 30px 0 12px; color: var(--graphite); }
-  .calc h3:first-child { margin-top: 0; }
-  .calc .grid { display: grid; gap: 12px; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); }
-  .calc label.f { display: flex; flex-direction: column; font-size: 12px; color: var(--muted); gap: 4px; }
-  .calc input {
-    font: inherit; font-size: 15px; padding: 9px 10px;
-    border: 1px solid var(--line); border-radius: 8px;
-    width: 100%; color: var(--text); background: #fff;
+  /* ===== Простые калькуляторы ===== */
+  .calcs { margin-top: 56px; }
+  .big-label { display: block; font-size: 14px; color: var(--muted); margin-bottom: 8px; }
+  .big-input-wrap { position: relative; }
+  .big-input {
+    width: 100%; font: inherit; font-size: 40px; font-weight: 700; color: var(--graphite);
+    padding: 14px 64px 14px 18px; border: 2px solid var(--line); border-radius: 12px; background: #fff;
   }
-  .calc input:focus { outline: 2px solid #8a93a3; outline-offset: 1px; }
-  .tw { overflow-x: auto; }
-  table.t { width: 100%; border-collapse: collapse; font-size: 14px; }
-  .t th, .t td { padding: 8px 6px; border-bottom: 1px solid var(--line); text-align: right; white-space: nowrap; }
-  .t th:first-child, .t td:first-child { text-align: left; }
-  .t th { font-size: 12px; color: var(--muted); font-weight: 600; }
-  .t tfoot td { font-weight: 700; border-bottom: none; }
-  .t td input { padding: 6px 8px; font-size: 14px; min-width: 72px; text-align: right; }
-  .t td.dev { font-weight: 700; color: var(--graphite); }
-  .t td.cost { color: var(--muted); font-size: 12px; }
-  .t td.off { color: #b9bdc4; }
-  .bar { height: 6px; background: var(--line); border-radius: 3px; margin-top: 4px; overflow: hidden; min-width: 80px; }
-  .bar i { display: block; height: 100%; background: var(--graphite); }
-  .kpis { display: grid; gap: 12px; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); margin-top: 16px; }
-  .kpi { border: 1px solid var(--line); border-radius: 10px; padding: 12px 14px; }
-  .kpi .k { font-size: 12px; color: var(--muted); }
-  .kpi .v { font-size: 22px; font-weight: 700; color: var(--graphite); }
-  .kpi.dark { background: var(--graphite); border-color: var(--graphite); }
-  .kpi.dark .k { color: #c9ccd2; }
-  .kpi.dark .v { color: #fff; }
-  .result-line {
-    margin-top: 14px; padding: 12px 14px; background: var(--soft);
+  .big-input:focus { outline: none; border-color: var(--graphite); }
+  .big-unit { position: absolute; right: 20px; top: 50%; transform: translateY(-50%); font-size: 28px; color: var(--muted); font-weight: 600; }
+  .row-inputs { display: grid; gap: 12px; grid-template-columns: 2fr 1fr; }
+  @media (max-width: 520px) { .row-inputs { grid-template-columns: 1fr; } .big-input { font-size: 30px; } }
+
+  .answers { display: grid; gap: 12px; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); margin-top: 18px; }
+  .ans { border: 1px solid var(--line); border-radius: 12px; padding: 16px 18px; }
+  .ans .k { font-size: 13px; color: var(--muted); }
+  .ans .v { font-size: 30px; font-weight: 800; color: var(--graphite); line-height: 1.2; margin: 4px 0; }
+  .ans .s { font-size: 13px; color: var(--muted); }
+  .ans.dark { background: var(--graphite); border-color: var(--graphite); }
+  .ans.dark .k, .ans.dark .s { color: #c9ccd2; }
+  .ans.dark .v { color: #fff; }
+
+  .bonus {
+    margin-top: 12px; padding: 12px 14px; background: var(--soft);
     border-left: 3px solid var(--graphite); border-radius: 4px; font-size: 15px;
   }
+
+  details.explain { margin-top: 16px; border: 1px solid var(--line); border-radius: 10px; }
+  details.explain summary {
+    cursor: pointer; padding: 12px 14px; font-size: 14px; font-weight: 600; color: var(--graphite);
+    list-style: none;
+  }
+  details.explain summary::-webkit-details-marker { display: none; }
+  details.explain summary::before { content: "▸ "; color: var(--muted); }
+  details.explain[open] summary::before { content: "▾ "; }
+  .explain-body { padding: 0 16px 16px; font-size: 13px; color: #4b5058; line-height: 1.6; }
+  .explain-body p { margin: 0 0 10px; }
+  .explain-body ul { margin: 0 0 10px; padding-left: 18px; }
+  .explain-body table { border-collapse: collapse; font-size: 13px; margin: 6px 0 12px; }
+  .explain-body td, .explain-body th { padding: 5px 12px 5px 0; text-align: left; border-bottom: 1px solid var(--line); }
+  .explain-body th { color: var(--muted); font-weight: 600; }
 
   @media (prefers-reduced-motion: reduce) {
     .float-card, .star { animation: none; }
@@ -385,96 +391,124 @@
     </div>
   </section>
 
-  <!-- КАЛЬКУЛЯТОР -->
-  <section class="block calc-wrap calc">
-    <div class="block-head">
-      <span class="block-num">Калькулятор</span>
-      <h2 class="block-title">Тарифы, доход и окупаемость</h2>
-    </div>
-    <div class="block-body">
+  <!-- КАЛЬКУЛЯТОРЫ -->
+  <div class="calcs">
 
-      <h3>1. Тарифы, ₽</h3>
-      <div class="tw">
-        <table class="t">
-          <thead id="priceHead"></thead>
-          <tbody id="priceBody"></tbody>
-        </table>
+    <!-- Калькулятор 1 -->
+    <section class="block">
+      <div class="block-head">
+        <span class="block-num">Калькулятор 1</span>
+        <h2 class="block-title">Когда вы сможете забрать вложение</h2>
       </div>
-      <p class="note">Строки — число устройств, столбцы — срок подписки. Цена 0 означает, что такого тарифа нет, он не участвует в расчёте. Себестоимость указана при 100 ГБ на устройство в месяц.</p>
+      <div class="block-body">
+        <label class="big-label" for="invest">Сколько вы инвестируете</label>
+        <div class="big-input-wrap">
+          <input class="big-input" id="invest" type="number" min="0" step="1000" value="30461" inputmode="numeric">
+          <span class="big-unit">₽</span>
+        </div>
 
-      <h3>2. Параметры</h3>
-      <div class="grid">
-        <label class="f">Активных плательщиков в месяц
-          <input id="payers" type="number" min="0" value="1000">
-        </label>
-        <label class="f">Перекос по устройствам (s)
-          <input id="sD" type="number" min="0" step="0.1" value="1.5">
-        </label>
-        <label class="f">Перекос по сроку (s)
-          <input id="sP" type="number" min="0" step="0.1" value="1">
-        </label>
-        <label class="f">На сервис и агрегатор, %
-          <input id="costp" type="number" min="0" max="100" value="50">
-        </label>
-        <label class="f">Доля вкладчика от маржи, %
-          <input id="invp" type="number" min="0" max="100" value="15">
-        </label>
+        <div class="answers">
+          <div class="ans dark">
+            <div class="k">Забрать всю сумму сразу</div>
+            <div class="v" id="lumpWhen">—</div>
+            <div class="s" id="lumpSub"></div>
+          </div>
+          <div class="ans">
+            <div class="k">Забирать частями, +10% сверху</div>
+            <div class="v" id="instWhen">—</div>
+            <div class="s" id="instSub"></div>
+          </div>
+        </div>
+
+        <div class="bonus" id="bonusLine"></div>
+
+        <details class="explain">
+          <summary>Почему такой ответ</summary>
+          <div class="explain-body">
+            <p><b>Откуда деньги на возврат.</b> Ваше вложение возвращается из маржи проекта. Правило всегда одно: 50% выручки уходит на агрегатор оплат внутри сервиса и на развитие платформы, оставшиеся 50% это маржа. На возврат вложений каждый месяц откладывается 30% маржи, из неё же начисляется ваша доля 15%.</p>
+            <p><b>Сколько будет пользователей.</b> При постоянной рекламе у блогера рассчитываем выйти на 10 000 пользователей к началу 4-го месяца. Рост считаем равномерным: примерно 2 500 в 1-й месяц, 5 000 во 2-й, 7 500 в 3-й, 10 000 с 4-го месяца и дальше. Из них платят 10%, то есть на пике около 1 000 плательщиков в месяц. Средний доход с одного плательщика около <span id="avgA">—</span> в месяц, как он считается, написано во втором калькуляторе.</p>
+            <p><b>Два варианта возврата.</b></p>
+            <ul>
+              <li><b>Сразу целиком.</b> Деньги копятся в фонде возврата, и как только там набирается вся сумма, вы забираете её одним платежом.</li>
+              <li><b>Частями с надбавкой.</b> Выплаты начинаются уже с первого месяца, каждый месяц вы получаете всё, что попало в фонд возврата, пока не вернётся сумма плюс 10%. Это дольше, чем забрать целиком, но в итоге вы получаете больше и деньги начинают приходить сразу.</li>
+            </ul>
+            <p><b>И это не всё, что вы получаете.</b> Возврат вложения идёт отдельно от вашей доли: 15% от маржи начисляются вам автоматически каждый месяц в течение первых 4 месяцев, независимо от того, какой вариант возврата вы выбрали.</p>
+            <p><b>Помесячно по фонду возврата:</b></p>
+            <table>
+              <thead><tr><th>Месяц</th><th>Плательщиков</th><th>Маржа</th><th>В фонд возврата</th><th>Ваши 15%</th></tr></thead>
+              <tbody id="schedBody"></tbody>
+            </table>
+            <p>Это теоретический расчёт по средним данным. Если пользователей будет больше, вернуть получится быстрее, если меньше, дольше. Реальные цифры можно отслеживать в админ-панели.</p>
+          </div>
+        </details>
       </div>
+    </section>
 
-      <h3>3. Как плательщики распределяются по тарифам</h3>
-      <div class="tw">
-        <table class="t">
-          <thead id="distHead"></thead>
-          <tbody id="distBody"></tbody>
-          <tfoot id="distFoot"></tfoot>
-        </table>
+    <!-- Калькулятор 2 -->
+    <section class="block">
+      <div class="block-head">
+        <span class="block-num">Калькулятор 2</span>
+        <h2 class="block-title">Ваша доля с пользователей</h2>
       </div>
-      <div class="why" style="margin-top:12px">Распределение считается по закону Ципфа в двух направлениях. Варианты по устройствам ставятся по порядку от 1 устройства до MAX, сроки по порядку от 1 месяца до 1 года. Доля тарифа равна (1 / i<sup>s₁</sup>) × (1 / j<sup>s₂</sup>), где i — номер по устройствам, j — номер по сроку, и затем всё нормируется до 100%. Смысл простой: чем дешевле и короче подписка, тем больше людей её берут, а дорогие и длинные тарифы выбирает меньшинство. Такую модель обычно используют для популярности вариантов в потребительских подписках. Это допущение, а не измеренная статистика: после запуска реальные доли можно взять из админ-панели и подобрать перекосы так, чтобы цифры совпали.</div>
+      <div class="block-body">
+        <div class="row-inputs">
+          <div>
+            <label class="big-label" for="payers">Платящих пользователей в месяц</label>
+            <div class="big-input-wrap">
+              <input class="big-input" id="payers" type="number" min="0" step="100" value="1000" inputmode="numeric">
+              <span class="big-unit">чел.</span>
+            </div>
+          </div>
+          <div>
+            <label class="big-label" for="pct">Ваш процент от маржи</label>
+            <div class="big-input-wrap">
+              <input class="big-input" id="pct" type="number" min="0" max="100" value="15" inputmode="numeric">
+              <span class="big-unit">%</span>
+            </div>
+          </div>
+        </div>
 
-      <h3>4. Что получается в месяц</h3>
-      <div class="kpis" id="kpis"></div>
-      <p class="note">Доход считается в пересчёте на месяц: цена тарифа делится на его срок. Например, годовой тариф за 1 790 ₽ приносит ≈ 149 ₽ в месяц.</p>
+        <div class="answers">
+          <div class="ans">
+            <div class="k">Все оплаты за месяц</div>
+            <div class="v" id="revOut">—</div>
+            <div class="s">общий чек</div>
+          </div>
+          <div class="ans">
+            <div class="k">Маржа за месяц</div>
+            <div class="v" id="marginOut">—</div>
+            <div class="s">после 50% на агрегатор оплат и развитие платформы</div>
+          </div>
+          <div class="ans dark">
+            <div class="k">Ваша доля в месяц</div>
+            <div class="v" id="shareOut">—</div>
+            <div class="s" id="shareSub"></div>
+          </div>
+        </div>
 
-      <h3>5. Окупаемость вложения</h3>
-      <div class="grid">
-        <label class="f">Пользователей к целевому месяцу
-          <input id="users" type="number" min="0" value="10000">
-        </label>
-        <label class="f">Целевой месяц (выход на эту цифру)
-          <input id="ramp" type="number" min="1" value="4">
-        </label>
-        <label class="f">Доля платящих, %
-          <input id="conv" type="number" min="0" max="100" value="10">
-        </label>
-        <label class="f">Срок выплат доли, мес.
-          <input id="term" type="number" min="1" value="4">
-        </label>
-        <label class="f">Ваше вложение, ₽
-          <input id="inv" type="number" min="0" value="30461">
-        </label>
+        <details class="explain">
+          <summary>Почему такой ответ</summary>
+          <div class="explain-body">
+            <p><b>Как считается.</b> Платящие пользователи × средний доход с одного плательщика = вся выручка за месяц. 50% выручки всегда уходит на агрегатор оплат внутри сервиса и на развитие платформы, остальные 50% это маржа. Ваша доля это указанный процент от маржи.</p>
+            <p><b>Средний доход с плательщика: <span id="avgB">—</span> в месяц.</b> Он зависит от того, какие тарифы люди выбирают. Дешёвые тарифы берут чаще, дорогие реже. Мы считаем, что люди распределятся так:</p>
+            <table>
+              <thead><tr><th>Устройств в подписке</th><th>Доля людей</th></tr></thead>
+              <tbody id="devShares"></tbody>
+            </table>
+            <table>
+              <thead><tr><th>Срок подписки</th><th>Доля людей</th></tr></thead>
+              <tbody id="perShares"></tbody>
+            </table>
+            <p>Например, подписку на 1 устройство на 1 месяц за 199 ₽ берут около <span id="topCell">—</span> всех плательщиков, это самый популярный тариф.</p>
+            <p><b>Откуда эти проценты.</b> Распределение взято по закону Ципфа. Это простое правило, которым часто описывают популярность вариантов: второй по дешевизне вариант выбирают примерно в 2 раза реже первого, третий в 3 раза реже и так далее. По сроку мы применяем его как есть, а по числу устройств чуть сильнее, потому что большинству нужно 1–2 устройства. Доля конкретного тарифа это доля по устройствам × доля по сроку.</p>
+            <p><b>Деньги за длинные подписки.</b> Подписка на год или полгода считается в пересчёте на месяц: годовая за 1 790 ₽ даёт около 149 ₽ в месяц. Так доход не завышается в месяц оплаты.</p>
+            <p>Это допущение, а не измеренная статистика. После запуска реальное распределение будет видно в админ-панели, и расчёт можно будет уточнить.</p>
+          </div>
+        </details>
       </div>
+    </section>
 
-      <div class="result-line" id="paybackMain"></div>
-
-      <h3>Помесячная выплата вкладчику</h3>
-      <div class="tw">
-        <table class="t">
-          <thead><tr><th>Месяц</th><th>Плательщиков</th><th>Общий чек</th><th>Маржа</th><th>Доля вкладчика</th><th>Накоплено</th></tr></thead>
-          <tbody id="monthBody"></tbody>
-        </table>
-      </div>
-
-      <h3>Когда вернётся вложение</h3>
-      <div class="tw">
-        <table class="t">
-          <thead><tr><th>Вложение</th><th>В пределах срока выплат</th><th>Если выплаты продлить</th></tr></thead>
-          <tbody id="scenBody"></tbody>
-        </table>
-      </div>
-      <div class="why" style="margin-top:12px">Рост считается линейным: число пользователей поднимается от нуля до целевой цифры к целевому месяцу, после этого остаётся на этом уровне. Из них платит указанная доля. Доля вкладчика это общий пул от маржи, поэтому у большего вложения выплаты не растут, а окупается оно дольше. Цифры ориентировочные и зависят от реального числа плательщиков.</div>
-
-    </div>
-  </section>
+  </div>
 
 </div>
 
@@ -510,16 +544,11 @@
   window.addEventListener('resize', function () { place(performance.now()); });
 })();
 
-/* ===== Калькулятор ===== */
+/* ===== Калькуляторы ===== */
 (function () {
-  var DEV = ['1', '3', '5', '10', 'MAX'];
-  var COST = ['14–27 ₽', '42–80 ₽', '70–135 ₽', '140–180 ₽', '200–280 ₽'];
-  var PER = [
-    { n: '1 месяц', m: 1 },
-    { n: '3 месяца', m: 3 },
-    { n: '6 месяцев', m: 6 },
-    { n: '1 год', m: 12 }
-  ];
+  /* Тарифы: строки — устройства, столбцы — срок */
+  var DEV = ['1 устройство', '3 устройства', '5 устройств', '10 устройств', 'MAX'];
+  var PER = [{ n: '1 месяц', m: 1 }, { n: '3 месяца', m: 3 }, { n: '6 месяцев', m: 6 }, { n: '1 год', m: 12 }];
   var PRICES = [
     [199, 539, 999, 1790],
     [299, 799, 1490, 2690],
@@ -527,158 +556,101 @@
     [599, 1619, 2990, 5390],
     [899, 2429, 4490, 7990]
   ];
+  var S_DEV = 1.5, S_PER = 1;
+
+  /* Правило: 50% выручки — на агрегатор оплат и развитие платформы */
+  var USERS = 10000, RAMP = 4, CONV = 0.10, COST = 0.5, FUND = 0.30, PREMIUM = 0.10, SHARE_MONTHS = 4;
 
   var $ = function (id) { return document.getElementById(id); };
   var rub = function (x) { return Math.round(x).toLocaleString('ru-RU') + ' ₽'; };
   var cnt = function (x) { return Math.round(x).toLocaleString('ru-RU'); };
-  var pct = function (x) { return (x * 100).toFixed(1).replace('.', ',') + '%'; };
-  var num = function (el, def) {
-    var v = parseFloat(String(el.value).replace(',', '.'));
+  var pct = function (x) { return Math.round(x * 100) + '%'; };
+  var num = function (id, def) {
+    var v = parseFloat(String($(id).value).replace(',', '.'));
     return isFinite(v) && v >= 0 ? v : def;
   };
-  var val = function (id, def) { return num($(id), def); };
+  var monthsWord = function (n) {
+    var a = n % 10, b = n % 100;
+    if (a === 1 && b !== 11) return 'месяц';
+    if (a >= 2 && a <= 4 && (b < 12 || b > 14)) return 'месяца';
+    return 'месяцев';
+  };
+  var whenText = function (m) {
+    if (m === null) return 'более 50 лет';
+    return m + ' ' + monthsWord(m) + (m >= 12 ? ' (≈ ' + (m / 12).toFixed(1).replace('.', ',') + ' г.)' : '');
+  };
 
-  /* Таблица цен */
-  var h = '<tr><th>Устр.</th>';
-  PER.forEach(function (p) { h += '<th>' + p.n + '</th>'; });
-  h += '<th>Себест./мес</th></tr>';
-  $('priceHead').innerHTML = h;
-
-  var b = '';
-  DEV.forEach(function (d, i) {
-    b += '<tr><td class="dev">' + d + '</td>';
-    PER.forEach(function (p, j) {
-      b += '<td><input id="pr_' + i + '_' + j + '" type="number" min="0" value="' + PRICES[i][j] + '"></td>';
-    });
-    b += '<td class="cost">' + COST[i] + '</td></tr>';
-  });
-  $('priceBody').innerHTML = b;
-
-  var dh = '<tr><th>Устр.</th>';
-  PER.forEach(function (p) { dh += '<th>' + p.n + '</th>'; });
-  dh += '<th>Всего</th><th>Плательщиков</th><th>Доход в месяц</th></tr>';
-  $('distHead').innerHTML = dh;
-
-  function model() {
-    var sD = val('sD', 1.5), sP = val('sP', 1);
-    var cells = [], sum = 0, i, j;
-    for (i = 0; i < DEV.length; i++) {
-      cells.push([]);
-      for (j = 0; j < PER.length; j++) {
-        var price = num($('pr_' + i + '_' + j), 0);
-        var w = price > 0 ? (1 / Math.pow(i + 1, sD)) * (1 / Math.pow(j + 1, sP)) : 0;
-        cells[i].push({ price: price, monthly: price / PER[j].m, w: w });
-        sum += w;
-      }
-    }
-    var avg = 0;
-    for (i = 0; i < DEV.length; i++) for (j = 0; j < PER.length; j++) {
-      var c = cells[i][j];
-      c.share = sum > 0 ? c.w / sum : 0;
-      avg += c.share * c.monthly;
-    }
-    return { cells: cells, avg: avg };
+  /* Распределение и средний чек */
+  var wD = [], wP = [], sD = 0, sP = 0, i, j;
+  for (i = 0; i < DEV.length; i++) { wD.push(1 / Math.pow(i + 1, S_DEV)); sD += wD[i]; }
+  for (j = 0; j < PER.length; j++) { wP.push(1 / Math.pow(j + 1, S_PER)); sP += wP[j]; }
+  var shD = wD.map(function (w) { return w / sD; });
+  var shP = wP.map(function (w) { return w / sP; });
+  var AVG = 0;
+  for (i = 0; i < DEV.length; i++) for (j = 0; j < PER.length; j++) {
+    AVG += shD[i] * shP[j] * (PRICES[i][j] / PER[j].m);
   }
 
-  function monthsText(m) {
-    if (m > 600) return 'более 50 лет';
-    return m + ' мес.' + (m >= 12 ? ' (≈ ' + (m / 12).toFixed(1).replace('.', ',') + ' лет)' : '');
+  $('avgA').textContent = rub(AVG);
+  $('avgB').textContent = rub(AVG);
+  $('topCell').textContent = pct(shD[0] * shP[0]);
+  $('devShares').innerHTML = DEV.map(function (d, k) { return '<tr><td>' + d + '</td><td>' + pct(shD[k]) + '</td></tr>'; }).join('');
+  $('perShares').innerHTML = PER.map(function (p, k) { return '<tr><td>' + p.n + '</td><td>' + pct(shP[k]) + '</td></tr>'; }).join('');
+
+  var payersAt = function (m) { return USERS * CONV * Math.min(1, m / RAMP); };
+  var marginAt = function (m) { return payersAt(m) * AVG * (1 - COST); };
+  var fundAt = function (m) { return marginAt(m) * FUND; };
+
+  function untilSum(X) {
+    var c = 0;
+    for (var m = 1; m <= 600; m++) { c += fundAt(m); if (c >= X) return m; }
+    return null;
   }
 
-  function render() {
-    var M = model();
-    var cost = Math.min(1, val('costp', 50) / 100);
-    var share = Math.min(1, val('invp', 15) / 100);
-    var payers = val('payers', 0);
-    var i, j;
+  function renderInvest() {
+    var X = num('invest', 0);
+    var share = Math.min(1, num('pct', 15) / 100);
 
-    /* распределение */
-    var rows = '', colTot = [0, 0, 0, 0], totalRev = 0;
-    for (i = 0; i < DEV.length; i++) {
-      var rowShare = 0, rowRev = 0, tds = '';
-      for (j = 0; j < PER.length; j++) {
-        var c = M.cells[i][j];
-        rowShare += c.share;
-        colTot[j] += c.share;
-        rowRev += payers * c.share * c.monthly;
-        tds += c.price > 0 ? '<td>' + pct(c.share) + '</td>' : '<td class="off">—</td>';
-      }
-      totalRev += rowRev;
-      rows += '<tr><td class="dev">' + DEV[i] + '</td>' + tds +
-        '<td><b>' + pct(rowShare) + '</b><div class="bar"><i style="width:' + (rowShare * 100).toFixed(1) + '%"></i></div></td>' +
-        '<td>' + cnt(payers * rowShare) + '</td><td>' + rub(rowRev) + '</td></tr>';
+    if (X <= 0) {
+      $('lumpWhen').textContent = '—'; $('lumpSub').textContent = 'введите сумму';
+      $('instWhen').textContent = '—'; $('instSub').textContent = '';
+    } else {
+      var lump = untilSum(X);
+      $('lumpWhen').textContent = 'через ' + whenText(lump);
+      $('lumpSub').textContent = 'вы забираете ' + rub(X) + ' одним платежом';
+
+      var total = X * (1 + PREMIUM);
+      var inst = untilSum(total);
+      $('instWhen').textContent = whenText(inst);
+      $('instSub').textContent = 'выплаты с 1-го месяца, всего вы получите ' + rub(total);
     }
-    $('distBody').innerHTML = rows;
-    var foot = '<tr><td>Всего</td>';
-    for (j = 0; j < PER.length; j++) foot += '<td>' + pct(colTot[j]) + '</td>';
-    foot += '<td>100%</td><td>' + cnt(payers) + '</td><td>' + rub(totalRev) + '</td></tr>';
-    $('distFoot').innerHTML = foot;
 
-    /* KPI */
-    var left = totalRev * (1 - cost);
-    var mine = left * share;
-    $('kpis').innerHTML =
-      '<div class="kpi"><div class="k">Средний доход с плательщика в месяц</div><div class="v">' + rub(M.avg) + '</div></div>' +
-      '<div class="kpi"><div class="k">Общий чек в месяц</div><div class="v">' + rub(totalRev) + '</div></div>' +
-      '<div class="kpi"><div class="k">Остаётся после ' + Math.round(cost * 100) + '% на сервис и агрегатор</div><div class="v">' + rub(left) + '</div></div>' +
-      '<div class="kpi dark"><div class="k">Доля вкладчика (' + Math.round(share * 100) + '% от остатка)</div><div class="v">' + rub(mine) + '</div></div>';
-
-    /* окупаемость */
-    var users = val('users', 0);
-    var ramp = Math.max(1, val('ramp', 4));
-    var conv = Math.min(1, val('conv', 10) / 100);
-    var term = Math.max(1, Math.round(val('term', 4)));
-    var inv = val('inv', 0);
-
-    var payersAt = function (m) { return users * conv * Math.min(1, m / ramp); };
-    var payout = function (m) { return payersAt(m) * M.avg * (1 - cost) * share; };
-
-    var shown = Math.min(Math.max(term, 4), 12);
-    var mrows = '', cum = 0, m;
-    for (m = 1; m <= shown; m++) {
-      var pp = payersAt(m);
-      var rv = pp * M.avg;
-      var mg = rv * (1 - cost);
-      var po = mg * share;
-      var inTerm = m <= term;
-      if (inTerm) cum += po;
-      mrows += '<tr' + (inTerm ? '' : ' style="opacity:.45"') + '><td>' + m + '</td><td>' + cnt(pp) + '</td><td>' + rub(rv) +
-        '</td><td>' + rub(mg) + '</td><td>' + (inTerm ? rub(po) : '—') + '</td><td>' + (inTerm ? rub(cum) : '—') + '</td></tr>';
+    var bonus = 0, rows = '';
+    for (var m = 1; m <= 6; m++) {
+      var mine = m <= SHARE_MONTHS ? marginAt(m) * share : 0;
+      bonus += mine;
+      rows += '<tr><td>' + m + '</td><td>' + cnt(payersAt(m)) + '</td><td>' + rub(marginAt(m)) +
+        '</td><td>' + rub(fundAt(m)) + '</td><td>' + (m <= SHARE_MONTHS ? rub(mine) : '—') + '</td></tr>';
     }
-    $('monthBody').innerHTML = mrows;
-
-    var calc = function (X) {
-      var c = 0, k, any = null;
-      for (k = 1; k <= 600; k++) {
-        c += payout(k);
-        if (c >= X) { any = k; break; }
-      }
-      return { within: (any !== null && any <= term) ? any : null, any: any };
-    };
-
-    var line = function (X) {
-      if (X <= 0) return 'Вложение не указано.';
-      var r = calc(X);
-      if (r.within) return 'Вложение ' + rub(X) + ' вернётся к ' + r.within + '-му месяцу, в пределах срока выплат (' + term + ' мес.).';
-      if (r.any) return 'За срок выплат (' + term + ' мес.) ' + rub(X) + ' не вернутся. Если выплачивать долю дальше, вложение вернётся примерно через ' + monthsText(r.any) + '.';
-      return 'При таких данных ' + rub(X) + ' не вернутся: ' + monthsText(601) + '.';
-    };
-    $('paybackMain').textContent = line(inv);
-
-    var scen = [20000, 30000, 100000, 1000000];
-    var srows = '';
-    for (i = 0; i < scen.length; i++) {
-      var r = calc(scen[i]);
-      srows += '<tr><td>' + rub(scen[i]) + '</td><td>' +
-        (r.within ? 'да, на ' + r.within + '-й мес.' : 'нет') + '</td><td>' +
-        (r.any ? monthsText(r.any) : monthsText(601)) + '</td></tr>';
-    }
-    $('scenBody').innerHTML = srows;
+    $('schedBody').innerHTML = rows;
+    $('bonusLine').innerHTML = '<b>Плюс сверху:</b> ' + Math.round(share * 100) +
+      '% от маржи начисляются вам автоматически. За первые ' + SHARE_MONTHS + ' месяца это примерно <b>' + rub(bonus) + '</b>.';
   }
 
-  var inputs = document.querySelectorAll('.calc input');
-  for (var n = 0; n < inputs.length; n++) inputs[n].addEventListener('input', render);
-  render();
+  function renderShare() {
+    var payers = num('payers', 0);
+    var share = Math.min(1, num('pct', 15) / 100);
+    var rev = payers * AVG;
+    var margin = rev * (1 - COST);
+    $('revOut').textContent = rub(rev);
+    $('marginOut').textContent = rub(margin);
+    $('shareOut').textContent = rub(margin * share);
+    $('shareSub').textContent = Math.round(share * 100) + '% от маржи с ' + cnt(payers) + ' плательщиков';
+  }
+
+  function renderAll() { renderInvest(); renderShare(); }
+  ['invest', 'payers', 'pct'].forEach(function (id) { $(id).addEventListener('input', renderAll); });
+  renderAll();
 })();
 </script>
 </body>
