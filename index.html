@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Расчёт минимальной инвестиции</title>
+<style>
+  :root {
+    --graphite: #2b2d31;
+    --text: #1d1f23;
+    --muted: #6b7078;
+    --line: #e6e8ec;
+    --soft: #f6f7f9;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: #ffffff;
+    color: var(--text);
+    font-family: -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    line-height: 1.5;
+  }
+  .page { max-width: 760px; margin: 0 auto; padding: 56px 24px 80px; }
+
+  .page-title { font-size: 28px; font-weight: 700; margin: 0 0 6px; color: var(--graphite); }
+  .page-sub { font-size: 14px; color: var(--muted); margin: 0 0 40px; }
+
+  .block { margin-bottom: 40px; }
+  .block-head {
+    background: var(--graphite);
+    color: #ffffff;
+    padding: 16px 22px;
+    border-radius: 12px 12px 0 0;
+    display: flex; align-items: baseline; gap: 14px;
+  }
+  .block-num { font-size: 13px; letter-spacing: .08em; text-transform: uppercase; opacity: .65; white-space: nowrap; }
+  .block-title { font-size: 20px; font-weight: 600; margin: 0; }
+
+  .block-body {
+    border: 1px solid var(--line);
+    border-top: none;
+    border-radius: 0 0 12px 12px;
+    padding: 24px 22px 22px;
+  }
+
+  .price-row { display: flex; align-items: baseline; flex-wrap: wrap; gap: 8px 16px; margin-bottom: 18px; }
+  .price-main { font-size: 34px; font-weight: 700; color: var(--graphite); }
+  .price-rub { font-size: 18px; color: var(--muted); }
+
+  .items { list-style: none; margin: 0 0 18px; padding: 0; }
+  .items li {
+    display: flex; justify-content: space-between; gap: 16px;
+    padding: 10px 0; border-bottom: 1px solid var(--line); font-size: 15px;
+  }
+  .items li:last-child { border-bottom: none; }
+  .items .val { white-space: nowrap; font-weight: 600; }
+
+  .formula {
+    background: var(--soft); border-radius: 8px; padding: 12px 14px;
+    font-size: 15px; margin-bottom: 14px;
+  }
+
+  .why {
+    font-size: 12px; color: var(--muted);
+    background: var(--soft); border-left: 3px solid var(--line);
+    border-radius: 4px; padding: 10px 12px; line-height: 1.55;
+  }
+  .why b { color: #4b5058; font-weight: 600; }
+
+  .tbd { color: var(--muted); font-style: italic; }
+
+  .total {
+    border-top: 2px solid var(--graphite);
+    padding-top: 22px; margin-top: 8px;
+  }
+  .total-row { display: flex; justify-content: space-between; align-items: baseline; gap: 16px; padding: 6px 0; font-size: 15px; }
+  .total-final {
+    display: flex; justify-content: space-between; align-items: baseline; gap: 16px;
+    margin-top: 12px; padding: 18px 22px;
+    background: var(--graphite); color: #fff; border-radius: 12px;
+  }
+  .total-final .label { font-size: 16px; }
+  .total-final .sum { font-size: 30px; font-weight: 700; }
+  .note { font-size: 12px; color: var(--muted); margin-top: 14px; }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <h1 class="page-title">Расчёт минимальной инвестиции</h1>
+  <p class="page-sub">Курс для пересчёта: 82,14 ₽ за $1 (официальный курс ЦБ на 7 ноября 2026)</p>
+
+  <!-- 1 -->
+  <section class="block">
+    <div class="block-head">
+      <span class="block-num">Статья расходов № 1</span>
+      <h2 class="block-title">Серверы Cloudflare</h2>
+    </div>
+    <div class="block-body">
+      <div class="price-row">
+        <span class="price-main">$100</span>
+        <span class="price-rub">≈ 8 214 ₽</span>
+      </div>
+
+      <div class="formula">Покупка 5 серверов каждый месяц в течение 4 месяцев подряд:<br>
+        <b>$5 × 5 × 4 = $100</b></div>
+
+      <ul class="items">
+        <li><span>Стоимость 1 сервера</span><span class="val">$5 / мес</span></li>
+        <li><span>Количество серверов</span><span class="val">5 шт.</span></li>
+        <li><span>Ежемесячный платёж</span><span class="val">$25</span></li>
+        <li><span>Срок</span><span class="val">4 месяца</span></li>
+      </ul>
+
+      <div class="why"><b>Обоснование:</b> 5 серверов дают пропускную способность примерно на 50 000 пользователей. Расход ежемесячный, поэтому сразу закладываем бюджет на 4 месяца: первый месяц и ещё 3 в запас. Это нужно только для поддержания работоспособности проекта.</div>
+    </div>
+  </section>
+
+  <!-- 2 -->
+  <section class="block">
+    <div class="block-head">
+      <span class="block-num">Статья расходов № 2</span>
+      <h2 class="block-title">Виртуальная карта для оплаты хостингов</h2>
+    </div>
+    <div class="block-body">
+      <div class="price-row">
+        <span class="price-main">4 401 ₽</span>
+        <span class="price-rub">≈ 3 990 ₽ выпуск + $5 комиссии</span>
+      </div>
+
+      <ul class="items">
+        <li><span>Сервис</span><span class="val">«Плати По Миру»</span></li>
+        <li><span>Тип карты</span><span class="val">Виртуальная Mastercard (USD)</span></li>
+        <li><span>Выпуск карты</span><span class="val">3 390–3 990 ₽ (в расчёте 3 990 ₽)</span></li>
+        <li><span>Обслуживание</span><span class="val">0 ₽ / мес</span></li>
+        <li><span>Комиссия за транзакцию</span><span class="val">$0,25</span></li>
+        <li><span>Комиссии: 20 платежей × $0,25</span><span class="val">$5 ≈ 411 ₽</span></li>
+        <li><span>Пополнение</span><span class="val">рубли через СБП, 0%</span></li>
+      </ul>
+
+      <div class="why"><b>Обоснование:</b> везде, где нужно оплачивать хостинг, нельзя платить криптой. Доступны только Apple Pay, Google Pay и PayPal, а они недоступны без привязанной карты. Поэтому карту нужно купить первой, остальное оплачивать уже с неё. При выпуске выдаётся биллинговый адрес, его нужно ввести в Cloudflare. Комиссия посчитана на 20 платежей (5 серверов × 4 месяца). Если списания пойдут одним платежом в месяц, комиссия будет около $1. Источник: <a href="https://vc.ru/services/2257749-top-12-virtualnyh-kart-dlya-oplaty-za-granicey" style="color:inherit">vc.ru — топ-12 виртуальных карт</a>.</div>
+    </div>
+  </section>
+
+  <!-- 3 -->
+  <section class="block">
+    <div class="block-head">
+      <span class="block-num">Статья расходов № 3</span>
+      <h2 class="block-title">Закупка VPN-серверов</h2>
+    </div>
+    <div class="block-body">
+      <div class="price-row">
+        <span class="price-main tbd">уточняется</span>
+      </div>
+
+      <ul class="items">
+        <li><span>Стоимость</span><span class="val tbd">пока не ясна</span></li>
+        <li><span>В текущем расчёте</span><span class="val">0 ₽</span></li>
+      </ul>
+
+      <div class="why"><b>Обоснование:</b> это серверы, к которым пользователи подключаются через выданные им конфиги. Без них у пользователей не будет точек подключения. Цена пока неизвестна, поэтому строка не входит в итог. Когда стоимость выяснится, её нужно добавить.</div>
+    </div>
+  </section>
+
+  <!-- TOTAL -->
+  <section class="total">
+    <div class="total-row"><span>1. Серверы Cloudflare</span><span>8 214 ₽</span></div>
+    <div class="total-row"><span>2. Карта</span><span>4 401 ₽</span></div>
+    <div class="total-row"><span>3. VPN-серверы</span><span class="tbd">уточняется</span></div>
+
+    <div class="total-final">
+      <span class="label">Минимальная инвестиция (без VPN-серверов)</span>
+      <span class="sum">≈ 12 615 ₽</span>
+    </div>
+
+    <p class="note">На карту нужно положить не меньше $105 (≈ 8 625 ₽): $100 на серверы и $5 на комиссии. Курс пополнения карты обычно немного хуже курса ЦБ, поэтому разумно заложить запас около 10%. Итог увеличится, когда будет известна цена VPN-серверов.</p>
+  </section>
+
+</div>
+</body>
+</html>
