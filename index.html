@@ -44,6 +44,7 @@
   }
 
   .price-row { display: flex; align-items: baseline; flex-wrap: wrap; gap: 8px 16px; margin-bottom: 18px; }
+  .price-row.last { margin-bottom: 0; }
   .price-main { font-size: 34px; font-weight: 700; color: var(--graphite); }
   .price-rub { font-size: 18px; color: var(--muted); }
 
@@ -67,6 +68,32 @@
   }
   .why b { color: #4b5058; font-weight: 600; }
 
+  /* Особая плавающая карточка */
+  .float-wrap { padding: 10px 0 18px; }
+  .float-card {
+    position: relative;
+    border-radius: 14px;
+    padding: 2px;
+    background: linear-gradient(135deg, #2b2d31, #8a93a3, #2b2d31);
+    background-size: 200% 200%;
+    box-shadow: 0 14px 30px rgba(43, 45, 49, .18);
+    animation: floaty 5s ease-in-out infinite, shimmer 8s ease-in-out infinite;
+  }
+  .float-card .block { margin: 0; background: #fff; border-radius: 12px; overflow: hidden; }
+  .float-card .block-head { border-radius: 0; }
+  .float-card .block-body { border: none; border-radius: 0; }
+  @keyframes floaty {
+    0%, 100% { transform: translateY(0); box-shadow: 0 14px 30px rgba(43, 45, 49, .18); }
+    50%      { transform: translateY(-7px); box-shadow: 0 22px 36px rgba(43, 45, 49, .14); }
+  }
+  @keyframes shimmer {
+    0%, 100% { background-position: 0% 50%; }
+    50%      { background-position: 100% 50%; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .float-card { animation: none; }
+  }
+
   .total {
     border-top: 2px solid var(--graphite);
     padding-top: 22px; margin-top: 8px;
@@ -80,6 +107,22 @@
   .total-final .label { font-size: 16px; }
   .total-final .sum { font-size: 30px; font-weight: 700; white-space: nowrap; }
   .note { font-size: 12px; color: var(--muted); margin-top: 14px; }
+
+  /* Что вы получаете */
+  .gain { margin-top: 48px; }
+  .gain-head {
+    background: var(--graphite); color: #fff;
+    padding: 16px 22px; border-radius: 12px 12px 0 0;
+    font-size: 20px; font-weight: 600; margin: 0;
+  }
+  .gain-body {
+    border: 1px solid var(--line); border-top: none;
+    border-radius: 0 0 12px 12px; padding: 28px 22px 24px;
+  }
+  .gain-big { display: flex; align-items: baseline; flex-wrap: wrap; gap: 6px 14px; margin-bottom: 20px; }
+  .gain-num { font-size: 64px; font-weight: 800; color: var(--graphite); line-height: 1; }
+  .gain-small { font-size: 14px; color: var(--muted); }
+  .gain-text { font-size: 16px; line-height: 1.6; margin: 0; color: var(--text); }
 </style>
 </head>
 <body>
@@ -169,35 +212,30 @@
     </div>
   </section>
 
-  <!-- 4 -->
-  <section class="block">
-    <div class="block-head">
-      <span class="block-num">Статья расходов № 4</span>
-      <h2 class="block-title">Личные расходы на месяц</h2>
+  <!-- 4 (особая плавающая карточка) -->
+  <div class="float-wrap">
+    <div class="float-card">
+      <section class="block">
+        <div class="block-head">
+          <span class="block-num">№ 4</span>
+          <h2 class="block-title">мне на покушать и оплатить инет и клода на следующий месяц</h2>
+        </div>
+        <div class="block-body">
+          <div class="price-row last">
+            <span class="price-main">5 000 ₽</span>
+            <span class="price-rub">на 1 месяц</span>
+          </div>
+        </div>
+      </section>
     </div>
-    <div class="block-body">
-      <div class="price-row">
-        <span class="price-main">5 000 ₽</span>
-        <span class="price-rub">на 1 месяц</span>
-      </div>
-
-      <ul class="items">
-        <li><span>Питание</span><span class="val">входит в сумму</span></li>
-        <li><span>Интернет</span><span class="val">входит в сумму</span></li>
-        <li><span>Подписка Claude</span><span class="val">входит в сумму</span></li>
-        <li><span>Срок</span><span class="val">1 месяц</span></li>
-      </ul>
-
-      <div class="why"><b>Обоснование:</b> чтобы заниматься проектом, нужно есть, иметь доступ в интернет и подписку на Claude, с помощью которого ведётся разработка. Сумма заложена на следующий месяц и оплачивается в рублях напрямую, не через карту.</div>
-    </div>
-  </section>
+  </div>
 
   <!-- TOTAL -->
   <section class="total">
     <div class="total-row"><span>1. Серверы Cloudflare ($100)</span><span>8 214 ₽</span></div>
     <div class="total-row"><span>2. Карта (выпуск + комиссии)</span><span>7 193 ₽</span></div>
     <div class="total-row"><span>3. VPN-серверы ($122,4)</span><span>10 054 ₽</span></div>
-    <div class="total-row"><span>4. Личные расходы на месяц</span><span>5 000 ₽</span></div>
+    <div class="total-row"><span>4. Мне на покушать, инет и Claude</span><span>5 000 ₽</span></div>
 
     <div class="total-final">
       <span class="label">Минимальная инвестиция</span>
@@ -205,6 +243,18 @@
     </div>
 
     <p class="note">На карту нужно положить не меньше $261,4 (≈ 21 471 ₽): $100 на Cloudflare, $122,4 на VPN-ноды и $39 на комиссии. Выпуск карты (3 990 ₽) и личные расходы (5 000 ₽) оплачиваются отдельно. Курс пополнения карты обычно немного хуже курса ЦБ, поэтому разумно заложить запас около 10% на валютную часть (≈ 2 150 ₽).</p>
+  </section>
+
+  <!-- ЧТО ВЫ ПОЛУЧАЕТЕ -->
+  <section class="gain">
+    <h2 class="gain-head">Что вы за это получаете</h2>
+    <div class="gain-body">
+      <div class="gain-big">
+        <span class="gain-num">15%</span>
+        <span class="gain-small">от маржи в течение 4 месяцев подряд</span>
+      </div>
+      <p class="gain-text">Расчёт предлагаю осуществлять не чаще 2 раз в месяц, либо вообще в идеале 1 раз в месяц.</p>
+    </div>
   </section>
 
 </div>
